@@ -167,4 +167,6 @@ spec:
 * CronJob
 * Job
 
+P.S Возможно, в идеале нужно юзать HPA с учётом нагрузки.
+
 Все манифесты можно посмотреть [тут.](https://github.com/tclutin/sre-mindbox-task/tree/main/manifests)
