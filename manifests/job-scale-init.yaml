@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mindbox-initial-scale
+spec:
+  template:
+    spec:
+      serviceAccountName: mindbox-service-account
+      containers:
+        - name: kubectl
+          image: bitnami/kubectl
+          command:
+            - /bin/sh
+            - -c
+            - |
+              HOUR=$(date +%H)
+              if [ $HOUR -ge 7 ] && [ $HOUR -lt 23 ]; then
+                kubectl scale deployment mindbox-deployment --replicas=4
+              else
+                kubectl scale deployment mindbox-deployment --replicas=3
+              fi
+      restartPolicy: OnFailure

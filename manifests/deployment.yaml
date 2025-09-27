@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mindbox-deployment
+  labels:
+    app: mindbox
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mindbox
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: mindbox
+    spec:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          whenUnsatisfiable: ScheduleAnyway
+          topologyKey: topology.kubernetes.io/zone
+          labelSelector:
+            matchLabels:
+              app: mindbox
+      containers:
+        - name: mindbox
+          image: mindbox:1.14.2
+          ports:
+            - name: http
+              containerPort: 8000
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "160Mi"
+              cpu: "600m"
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            failureThreshold: 2
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 5
+            initialDelaySeconds: 0
+            failureThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 10
+            failureThreshold: 3
