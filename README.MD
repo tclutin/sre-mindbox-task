@@ -166,4 +166,4 @@ spec:
 * CronJob
 * Job
 
-Все манифесты можно посмотреть тут.
+Все манифесты можно посмотреть [тут.](https://github.com/tclutin/sre-mindbox-task/tree/main/manifests)
