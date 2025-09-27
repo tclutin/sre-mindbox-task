@@ -135,6 +135,7 @@ spec:
 
 Но, как понять, сейчас день или ночь при деплое? Можно использовать обычную джобу со скриптом для инициализации.
 ```yaml
+#mindbox-initial-scale
 apiVersion: batch/v1
 kind: Job
 metadata:
